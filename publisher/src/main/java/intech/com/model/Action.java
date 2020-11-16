@@ -11,7 +11,7 @@ public enum Action {
     }
 
     public static Action getRandomAction() {
-        final Random random = new Random(100);
-        return random.nextInt() % 2 == 0 ? PURCHASE : SUBSCRIPTION;
+        final int i = new Random().nextInt();
+        return i % 2 == 0 ? PURCHASE : SUBSCRIPTION;
     }
 }

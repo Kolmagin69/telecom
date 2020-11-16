@@ -1,54 +1,46 @@
 package intech.com.model;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Random;
 
+@Entity
+@Table(name = "messages")
 public class Message {
 
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private final Integer id;
 
-    private long msisdn;
+    @Column(name = "msisdn")
+    private final Integer msisdn;
 
-    private Action action;
+    @Column(name = "action")
+    private final Action action;
 
+    @Column(name = "timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
     private Timestamp timestamp;
 
-    public Message(int id, Timestamp timestamp) {
+    public Message(Integer id, Integer msisdn, Action action, Timestamp timestamp) {
         this.id = id;
-        this.msisdn = new Random().nextInt();
-        this.action = Action.getRandomAction();
+        this.msisdn = msisdn;
+        this.action = action;
         this.timestamp = timestamp;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public long getMsisdn() {
-        return msisdn;
-    }
-
-    public void setMsisdn(int msisdn) {
-        this.msisdn = msisdn;
     }
 
     public Action getAction() {
         return action;
     }
 
-    public void setAction(Action action) {
-        this.action = action;
-    }
-
     public Timestamp getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
+    public Integer getMsisdn() {
+        return msisdn;
     }
 }

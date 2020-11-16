@@ -15,7 +15,7 @@ public class ThreadList {
 
     private List<Thread> createTreadList(final int countThread, final ThreadFunction function) {
         final List<Thread> threadList = new ArrayList<>();
-        for (int i = 0; i <= countThread; i++) {
+        for (int i = 0; i < countThread; i++) {
             Thread thread = new Thread(getRunnable(function));
             threadList.add(thread);
         }
@@ -31,19 +31,23 @@ public class ThreadList {
                     return;
                 try {
                     Thread.sleep(15000);
-                } catch (InterruptedException e){}
+                } catch (InterruptedException e){
+                    e.printStackTrace();
+                }
             } while (!stopTreads);
         };
     }
 
-
-    public static void startTreads(final List<Thread> threadList) {
-        for (Thread thread : threadList) {
-            thread.start();
-        }
+    public List<Thread> getThreadList() {
+        return threadList;
     }
 
-    public void stopThreads(final boolean stopTreads) {
+    public boolean isStopTreads() {
+        return stopTreads;
+    }
+
+    public void setStopTreads(boolean stopTreads) {
         this.stopTreads = stopTreads;
     }
+
 }
