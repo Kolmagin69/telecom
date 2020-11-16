@@ -13,10 +13,12 @@
 		<maven.compiler.source>8</maven.compiler.source>
 		<maven.compiler.target>8</maven.compiler.target>
 		<project.build.sourceEncoding>utf8</project.build.sourceEncoding>
-		<spring.boot.version>2.3.5.RELEASE</spring.boot.version>
+		<spring.boot.version>2.3.0.RELEASE</spring.boot.version>
+		<hibernate.version>5.4.23.Final</hibernate.version>
 	</properties>
 
 	<modules>
+		<module>publisher</module>
 		<module>subscriber</module>
 	</modules>
 
@@ -24,6 +26,21 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.11.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.4-1200-jdbc41</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
 		</dependency>
 	</dependencies>
 
