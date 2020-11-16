@@ -1,6 +1,3 @@
 ### IntelliJ IDEA ###
 .idea/
 .idea/libraries
-*.iws
-*.iml
-*.ipr
