@@ -58,4 +58,14 @@ public class Message {
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "id=" + id +
+                ", msisdn=" + msisdn +
+                ", action=" + action +
+                ", timestamp=" + timestamp +
+                '}';
+    }
 }
