@@ -6,7 +6,7 @@ public class Message {
 
     private Integer id;
 
-    private Long msisdn;
+    private Integer msisdn;
 
     private Action action;
 
@@ -14,7 +14,7 @@ public class Message {
 
     public Message(){};
 
-    public Message(Integer id, Long msisdn, Action action, Timestamp timestamp) {
+    public Message(Integer id, Integer msisdn, Action action, Timestamp timestamp) {
         this.id = id;
         this.msisdn = msisdn;
         this.action = action;
@@ -25,7 +25,7 @@ public class Message {
         return id;
     }
 
-    public Long getMsisdn() {
+    public Integer getMsisdn() {
         return msisdn;
     }
 
@@ -41,7 +41,7 @@ public class Message {
         this.id = id;
     }
 
-    public void setMsisdn(Long msisdn) {
+    public void setMsisdn(Integer msisdn) {
         this.msisdn = msisdn;
     }
 
