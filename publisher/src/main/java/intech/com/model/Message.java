@@ -9,20 +9,19 @@ public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final Integer id;
+    private Integer id;
 
-    @Column(name = "msisdn")
-    private final Integer msisdn;
+    private Integer msisdn;
 
-    @Column(name = "action")
-    private final Action action;
+    @Enumerated(EnumType.STRING)
+    private Action action;
 
-    @Column(name = "timestamp")
-    @Temporal(TemporalType.TIMESTAMP)
     private Timestamp timestamp;
 
-    public Message(Integer id, Integer msisdn, Action action, Timestamp timestamp) {
-        this.id = id;
+    public Message() {
+    }
+
+    public Message(final Integer msisdn, final Action action, final Timestamp timestamp) {
         this.msisdn = msisdn;
         this.action = action;
         this.timestamp = timestamp;
@@ -42,5 +41,21 @@ public class Message {
 
     public Integer getMsisdn() {
         return msisdn;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setMsisdn(Integer msisdn) {
+        this.msisdn = msisdn;
+    }
+
+    public void setAction(Action action) {
+        this.action = action;
+    }
+
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 }
