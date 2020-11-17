@@ -6,20 +6,21 @@ import org.springframework.stereotype.Controller;
 
 import java.sql.Timestamp;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Controller
-public class RandomMessageController implements MessageController {
-
-    private final AtomicInteger id  = new AtomicInteger(0);
-    
-    private final Random random = new Random();
+public class RandomMessageGenerator implements MessageGenerator {
 
     @Override
     public Message generatedMessage() {
-        return new Message(id.getAndIncrement(),
-                random.nextInt(1000000),
+        return new Message(getRandomInt(),
                 Action.getRandomAction(), 
                 new Timestamp(System.currentTimeMillis()));
     }
+
+    private int getRandomInt() {
+        final Random random = new Random();
+        int i = random.nextInt();
+        return i >= 0 ? i : -1 * i;
+    }
+
 }
