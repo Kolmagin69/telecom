@@ -11,11 +11,14 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(nullable = false)
     private Integer msisdn;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Action action;
 
+    @Column(nullable = false)
     private Timestamp timestamp;
 
     public Message() {

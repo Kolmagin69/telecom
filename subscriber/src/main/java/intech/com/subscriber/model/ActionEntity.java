@@ -10,8 +10,10 @@ public class ActionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int id;
 
+    @Column(nullable = false)
     protected int msisdn;
 
+    @Column(nullable = false)
     protected Timestamp timestamp;
 
     public int getId() {
