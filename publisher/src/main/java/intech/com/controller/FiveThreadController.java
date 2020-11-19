@@ -2,6 +2,7 @@ package intech.com.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import intech.com.exception.ClientConnectException;
 import intech.com.exception.ThreadsRunningException;
 import intech.com.model.Message;
 import intech.com.model.ThreadFunction;
@@ -12,9 +13,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.util.List;
 
 @Controller
 public class FiveThreadController implements ThreadController {
@@ -40,7 +43,13 @@ public class FiveThreadController implements ThreadController {
             httpHeaders.setContentType(MediaType.APPLICATION_JSON);
             final String json = objectToStringJson(newMassage);
             HttpEntity<String> httpEntity = new HttpEntity<>(json, httpHeaders);
-            restTemplate.exchange(localhostURI, HttpMethod.POST, httpEntity, Message.class);
+            try {
+                restTemplate.exchange(localhostURI, HttpMethod.POST, httpEntity, Message.class);
+            } catch (RestClientException e) {
+                final String errMessage = "Problem connecting to " + localhostURI.toString();
+                logger.error(errMessage);
+                throw new ClientConnectException(errMessage);
+            }
             logger.info("Generate and sent " + newMassage.toString() + " to subscriber");
         };
         return new ThreadList(5, threadFunction);
@@ -69,6 +78,19 @@ public class FiveThreadController implements ThreadController {
             e.printStackTrace();
         }
         return json;
+    }
+
+    public String threadsName(){
+        final StringBuilder stringBuilder = new StringBuilder("Threads : [ ");
+        List<Thread> threads = threadList.getThreadList();
+        final int size = threads.size();
+        for (int i = 0; i < size; i++) {
+            if (i < size - 1)
+                stringBuilder.append(i + 1).append(" - ").append(threads.get(i).getName()).append(", ");
+            else
+                stringBuilder.append(i + 1).append(" - ").append(threads.get(i).getName()).append(" ]");
+        }
+        return stringBuilder.toString();
     }
 
 }
