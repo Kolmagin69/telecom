@@ -19,7 +19,7 @@ import java.util.Map;
 public class ThreadsExceptionHandler {
 
     @ExceptionHandler(value = {ThreadsRunningException.class, ClientConnectException.class})
-    public ModelAndView handleRuntimeException(Exception ex) {
+    public ModelAndView handleRuntimeException(final Exception ex) {
         final HttpStatus badRequest = HttpStatus.BAD_REQUEST;
         
         final ExceptionMessage message = new ExceptionMessage(
