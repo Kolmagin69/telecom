@@ -1,0 +1,50 @@
+version: '2.4'
+
+services:
+
+  database_pub:
+    image: postgres:12
+    ports:
+      - 5409:5432
+#    volumes:
+#      - ./xo_pg_data:/pub/var/lib/postgresql/data/pgdata
+    environment:
+      POSTGRESS_PASSWORD: pas123
+      POSTGRES_DB: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
+#      PGDATA: /pub/var/lib/postgresql/data/pgdata
+
+  database_sub:
+    image: postgres:12
+    ports:
+      - 5406:5432
+#    volumes:
+#      - ./xo_pg_data:/sub/var/lib/postgresql/data/pgdata
+    environment:
+      POSTGRESS_PASSWORD: pas123
+      POSTGRES_DB: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
+#      PGDATA: /sub/var/lib/postgresql/data/pgdata
+
+  publisher:
+      image: publisher:1
+      ports:
+        - 8089:8089
+      restart: always
+      links:
+        - database_pub
+
+
+  subscriber:
+      image: subscriber:1
+      ports:
+        - 8086:8086
+      restart: always
+      links:
+        - database_sub
+
+
+
+
+
+
