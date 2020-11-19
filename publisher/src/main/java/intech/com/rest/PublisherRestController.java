@@ -14,13 +14,15 @@ public class PublisherRestController {
     private ThreadController threadController;
 
     @PostMapping("start")
-    public void startMessage() {  
+    public String startMessage() {
         threadController.startTreads();
+        return "Start " + threadController.threadsName();
     }
     
     @PostMapping("stop")
-    public void stopMessage() {
+    public String stopMessage() {
         threadController.stopThreads(true);
+        return "Start " + threadController.threadsName();
     }
 
 }
