@@ -6,4 +6,6 @@ public interface ThreadController {
 
     void stopThreads(boolean stopThreads);
 
+    String threadsName();
+
 }
