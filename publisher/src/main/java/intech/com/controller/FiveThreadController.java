@@ -34,7 +34,7 @@ public class FiveThreadController implements ThreadController {
     private ThreadList createThreadList() {
         final ThreadFunction threadFunction = () -> {
             final Message newMassage = messageRepository.save(messageController.generatedMessage());
-            final URI localhostURI = URI.create("http://localhost:8086/subscriber/post/message");
+            final URI localhostURI = URI.create("http://subscriber:8086/subscriber/post/message");
             final RestTemplate restTemplate = new RestTemplate();
             final HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setContentType(MediaType.APPLICATION_JSON);
