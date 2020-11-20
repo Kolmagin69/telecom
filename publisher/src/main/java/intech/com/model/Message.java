@@ -19,12 +19,12 @@ public class Message {
     private Action action;
 
     @Column(nullable = false)
-    private Timestamp timestamp;
+    private Long timestamp;
 
     public Message() {
     }
 
-    public Message(final Integer msisdn, final Action action, final Timestamp timestamp) {
+    public Message(final Integer msisdn, final Action action, final Long timestamp) {
         this.msisdn = msisdn;
         this.action = action;
         this.timestamp = timestamp;
@@ -38,7 +38,7 @@ public class Message {
         return action;
     }
 
-    public Timestamp getTimestamp() {
+    public Long getTimestamp() {
         return timestamp;
     }
 
@@ -58,7 +58,7 @@ public class Message {
         this.action = action;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
     }
 

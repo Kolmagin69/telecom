@@ -14,7 +14,7 @@ public class ActionEntity {
     protected int msisdn;
 
     @Column(nullable = false)
-    protected Timestamp timestamp;
+    protected Long timestamp;
 
     public int getId() {
         return id;
@@ -32,11 +32,11 @@ public class ActionEntity {
         this.msisdn = msisdn;
     }
 
-    public Timestamp getTimestamp() {
+    public Long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
     }
 

@@ -10,11 +10,11 @@ public class Message {
 
     private Action action;
 
-    private Timestamp timestamp;
+    private Long timestamp;
 
     public Message(){};
 
-    public Message(Integer id, Integer msisdn, Action action, Timestamp timestamp) {
+    public Message(Integer id, Integer msisdn, Action action, Long timestamp) {
         this.id = id;
         this.msisdn = msisdn;
         this.action = action;
@@ -33,7 +33,7 @@ public class Message {
         return action;
     }
 
-    public Timestamp getTimestamp() {
+    public Long getTimestamp() {
         return timestamp;
     }
 
@@ -49,7 +49,7 @@ public class Message {
         this.action = action;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
     }
 
