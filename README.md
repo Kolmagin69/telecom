@@ -11,30 +11,18 @@
 
 ### Описание 
 
-Сервис состоит из 2 приложений. Первое приложение Publisher отвечает за генерацию и отправку 
+Сервис состоит из 2 приложений. Первое приложение Publisher отвечает за генерацию и многопоточную отправку 
 сообщений подписчику (subscriber) по HTTP протоколу. Subscriber разбирает сообщения и записывает его
 в базу данных.
 
-Протокол
-Publisher и subscriber общаются между собой методом отправки JSON сообщений по следующему протоколу:
+Стек технологий:
+* Сервис написан на базе Spring Framework
+  * Spring Boot, Spring Boot Data JPA
+ * Hibernate в качестве реализации JPA
+ * PostgreSQL в качестве базы данных 
+ * Jackson для работы .json файлами
+ 
 
-*	ID. Идентификатор отправленного сообщения. Автоинкрементится в каждом сообщении
-*   Msisdn. Уникальный номер абонента. В рамках этого задания рандомно сгенерированное цифровое
- значние.
-*   Action. Тип сообщения. Сообщения могут быть 2 типов – PURCHASE или SUBSCRIPTION. Значение 
-выбирается рандомно 
-при генерации сообщения.
-*   Timestamp. UNIX timestamp.
-
-### Пример сообщения:
-```json
-{
-    "id": 1,
-    "msisdn": 123456789,
-    "action": "PURCHASE",
-    "timestamp": 1589464122
-}
-```
 ### Publisher
 Сервис Publisher генерирует сообщения, записывает в базу данных и осуществляет их отправку в пять потоков 
 сервису subscriber каждые 15 секунд по протоколу HTTP в виде JSON файла
@@ -70,7 +58,7 @@ Start Threads : [ 1 - Thread-165, 2 - Thread-163, 3 - Thread-166, 4 - Thread-167
     "httpStatus": "400 BAD_REQUEST"
 }
 ```
-Что остановить многопоточную отправку сообщений subscriber необходимо отправить POST запрос:
+Чтобы остановить многопоточную отправку сообщений subscriber необходимо отправить POST запрос:
 ```
 POST /publisher/stop HTTP/1.1
 Host: localhost:8089
@@ -126,15 +114,15 @@ Content-Type: application/json
 * наличие установленного [docker](https://www.docker.com/products/docker-desktop) и 
 [docker-compose](https://docs.docker.com/compose/install/) 
 
-Для запуска сервиса необходимо прописать в командной строке из текущей директории:
+1 Для запуска сервиса необходимо прописать в командной строке из текущей директории:
  ```
  mvn package
  ```
 >сборка занимает в районе 5 минут (это как то связано с spotify плагином для сборки docker image)
 
-После удачной сборки необходимо прописать в командной строке: 
+2 После удачной сборки необходимо прописать в командной строке: 
  ```
-docker-compose up
+docker-compose up 
  ```
 После того как docker развернет модули и базы данных (работают на портах 5406, 5409 соответственно) сервисом можно 
 пользоваться
@@ -143,7 +131,45 @@ docker-compose up
  ```
 psql -h localhost -p 5406 -U postgres
  ```
- 
+#### На локальной машине 
+1 Для запуска сервиса необходимо сначала откорректировать несколько файлов:
+* в файлах application.properties в директории publisher и subscriber надо подменить строки 4, 5, 6(либо выставить свои настройки)
+ ```
+# publisher/src/main/src/main/resources/application.properties
+spring.datasource.username=publisher
+spring.datasource.password=pas123
+spring.datasource.url=jdbc:postgresql://localhost:5432/publisher
 
+# subscriber/src/main/resources/application.properties
+spring.datasource.username=subscriber
+spring.datasource.password=pas123
+spring.datasource.url=jdbc:postgresql://localhost:5432/subscriber
+ ```
+* class intech.com.controller.FiveThreadController находящийся в директории publisher/src/main/java/intech/com/controller строчку 40 меняем на:
+ ```
+final URI localhostURI = URI.create("http://subscriber:8086/subscriber/post/message");
+
+ ```
+* в файле pom.xml сервисов необходимо удалить spotify plugin
+
+2 После этого нужно создать USER, DATABASE, TABLE в postgresql:
+>файл с SQL запросами для каждого сервиса находиться в соответствующей папке \src\main\resources\db.sql
+
+3 Далее из главной директории в командной строке надо прописать:
+ ```
+ mvn package
+ ```
+4 На последнем этапе нужно запустить собранные артефакты *.jar для этого в командной строке:
+
+```
+java -Djava.util.logging.config.file=/subscriber/resourse/logback.xml -jar subscriber/target/subscriber-1.jar
+
+java -Djava.util.logging.config.file=/publisher/resourse/logback.xml -jar publisher/target/publisher-1.jar
+ ```
+> причем логи помимо вывода на экран будут записываться в файл .log лежащий в publisher/logging и subscriber/logging соответственно
+
+> При желании можно пропустить 3 и 4 пункт и запустить приложение через среду разработки (например Intellij IDEA)
+
+Сервис запущен и им можно пользоваться
 
 
