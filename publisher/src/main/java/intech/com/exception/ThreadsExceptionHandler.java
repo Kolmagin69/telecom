@@ -18,7 +18,8 @@ import java.util.Map;
 @ControllerAdvice
 public class ThreadsExceptionHandler {
 
-    @ExceptionHandler(value = {ThreadsRunningException.class, ClientConnectException.class})
+    @ExceptionHandler(value = {ThreadsRunningException.class, ClientConnectException.class,
+            IllegalArgumentException.class})
     public ModelAndView handleRuntimeException(final Exception ex) {
         final HttpStatus badRequest = HttpStatus.BAD_REQUEST;
         

@@ -22,7 +22,7 @@ public class PublisherRestController {
     @PostMapping("stop")
     public String stopMessage() {
         threadController.stopThreads(true);
-        return "Start " + threadController.threadsName();
+        return "Stop " + threadController.threadsName();
     }
 
 }
