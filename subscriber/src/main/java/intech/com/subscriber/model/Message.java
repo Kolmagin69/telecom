@@ -1,7 +1,5 @@
 package intech.com.subscriber.model;
 
-import java.sql.Timestamp;
-
 public class Message {
 
     private Integer id;

@@ -1,7 +1,6 @@
 package intech.com.subscriber.model;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)

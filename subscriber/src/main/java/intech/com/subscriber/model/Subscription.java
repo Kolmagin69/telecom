@@ -1,7 +1,7 @@
 package intech.com.subscriber.model;
 
-import javax.persistence.*;
-import java.sql.Timestamp;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "subscriptions")
