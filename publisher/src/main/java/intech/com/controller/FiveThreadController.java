@@ -2,6 +2,7 @@ package intech.com.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.istack.NotNull;
 import intech.com.exception.ClientConnectException;
 import intech.com.exception.ThreadsRunningException;
 import intech.com.model.Message;
@@ -11,6 +12,8 @@ import intech.com.repository.MessageRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestClientException;
@@ -30,6 +33,9 @@ public class FiveThreadController implements ThreadController {
     @Autowired
     private MessageRepository messageRepository;
 
+    @Value("${subscriber.port}")
+    private String subscriberPort;
+
     private ThreadList threadList;
 
     private boolean isThreadsRunning = false;
@@ -37,7 +43,7 @@ public class FiveThreadController implements ThreadController {
     private ThreadList createThreadList() {
         final ThreadFunction threadFunction = () -> {
             final Message newMassage = messageRepository.save(messageController.generatedMessage());
-            final URI localhostURI = URI.create("http://subscriber:8086/subscriber/post/message");
+            final URI localhostURI = URI.create("http://" + subscriberPort + "/subscriber/post/message");
             final RestTemplate restTemplate = new RestTemplate();
             final HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -48,7 +54,7 @@ public class FiveThreadController implements ThreadController {
             } catch (RestClientException e) {
                 final String errMessage = "Problem connecting to " + localhostURI.toString();
                 logger.error(errMessage);
-                throw new ClientConnectException(errMessage);
+                throw new ClientConnectException(e.getMessage());
             }
             logger.info("Generate and sent " + newMassage.toString() + " to subscriber");
         };
