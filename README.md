@@ -127,13 +127,22 @@ docker-compose up
 После того как docker развернет модули и базы данных (работают на портах 5406, 5409 соответственно) сервисом можно 
 пользоваться
 
-> причем чтобы подключиться к одной из баз данных необходимо прописать в командной строке:
+> Чтобы подключиться к одной из баз данных необходимо прописать в командной строке:
  ```
 # connect to publisher db
 docker exec -it database_pub psql -U postgres
 
 # connect to subscriber db
 docker exec -it database_sub psql -U postgres
+ ```
+>Причем чтобы открыть папку с логами надо прописать в командной строке для каждого сервиса соотвественно:
+ ```
+docker exec -it publisher bash
+cd publisher/logging
+ ```
+> А чтобы сразу открыть логи :
+ ```
+docker exec -it subscriber cat /subscriber/logging/SubscriberApplication.log
  ```
 #### На локальной машине 
 1 Для запуска сервиса необходимо сначала сконфигурировать настройки:
